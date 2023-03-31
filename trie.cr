@@ -8,13 +8,12 @@ class Trie
   def insert(collection : Iterable)
     current = @root
     collection.each do |token|
-      if current.is_a?(Hash)
-        if current.has_key?(token)
-          current = current[token]
-        else
-          current[token] = Hash(Iterable, RecursiveHash).new
-          current = current[token]
-        end
+      x = current.fetch(token, nil)
+      if x.nil?
+        current[token] = Hash(Iterable, RecursiveHash).new
+        current = current[token]
+      else
+        current = x
       end
     end
   end
